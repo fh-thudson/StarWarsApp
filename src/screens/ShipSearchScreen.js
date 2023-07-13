@@ -1,14 +1,11 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
-import { StyleSheet, Text, View, FlatList, SafeAreaView, StatusBar, Dimensions, ActivityIndicator } from "react-native";
+import { StyleSheet, Text, View, FlatList, SafeAreaView, StatusBar, Dimensions, ActivityIndicator, TouchableOpacity } from "react-native";
 import DropDown from "../components/DropDown";
 import { Context as AppContext } from "../context/AppContext";
 
 const ShipSearchScreen = ({ navigation }) => {
 
-    const { state, updateApiError, updateLoading, updateShipData  } = useContext(AppContext);
-    const inputRef = useRef();
-    const [searchTerm, setSearchTerm] = useState("");
-    const [results, setResults] = useState(null);
+    const { state, updateApiError, updateLoading, updateShipData, resetShipData  } = useContext(AppContext);
 
     useEffect(() => {
         updateLoading(true);
@@ -25,15 +22,20 @@ const ShipSearchScreen = ({ navigation }) => {
         );
     }
 
+    const handleResetPress = () => {
+        // console.log(state.unfilteredShipData);
+        resetShipData(state.unfilteredShipData);
+    };
+
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar barStyle="dark-content" />
             <View style={styles.container}>
-                <DropDown style={styles.dropDown}/>
-                <Text>Ships in Database {state.shipData.length}</Text>
+                <DropDown />
+                {state.selectedManufacturer ? ( <TouchableOpacity style={styles.clearButton} onPress={handleResetPress} ><Text style={styles.clearButtonText}>Clear Filter</Text></TouchableOpacity> ) : null}
+                <Text>Ships: {state.shipData.length}</Text>
                 <FlatList
                     style={styles.flatList}
-                    // data={state.shipData}
                     data={state.shipData}
                     keyExtractor={(item) => item.name}
                     renderItem={({ item }) => {
@@ -76,9 +78,6 @@ const styles = StyleSheet.create({
         width: Dimensions.get("window").width,
         height: 100,
     },
-    dropDown: {
-        width: "90%",
-    },
     itemContainer: {
         flex: 1,
         alignItems: "center",
@@ -110,6 +109,15 @@ const styles = StyleSheet.create({
         width: "90%",
         paddingHorizontal: 16,
         paddingVertical: 8,
+    },
+    clearButton: {
+        backgroundColor: "red",
+        padding: 8,
+        borderRadius: 10,
+    },
+    clearButtonText: {
+        color: "white",
+        fontSize: 16,
     },
 });
 

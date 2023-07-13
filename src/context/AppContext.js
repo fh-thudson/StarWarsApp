@@ -81,6 +81,7 @@ const updateShipData = dispatch => {
                 }
             }
             // dispatch({type:'update_ship_data', payload: newShipData.flat() });
+            dispatch({type:'update_unfiltered_ship_data', payload: newShipData });
             dispatch({type:'update_ship_data', payload: newShipData });
             // sort our array of manufacturers for the drop down selector
             // console.log(shipManufacturer.sort());
@@ -101,6 +102,8 @@ const updateSelectedManufacturer = dispatch => {
 const filterByManufacturer = dispatch => {
     return async (selectedManufacturer, shipData) => {
         if(selectedManufacturer && shipData){
+            // save data so we don't hit api too much
+            // dispatch({type:'update_unfiltered_ship_data', payload: shipData });  // not handling this correctly
             const filteredResults = shipData.filter((item) => {
                 return item.manufacturer.includes(selectedManufacturer);
             });
@@ -109,10 +112,19 @@ const filterByManufacturer = dispatch => {
     }
 }
 
+const resetShipData = dispatch => {
+    return async (unfilteredShipData) => {
+        if(unfilteredShipData){
+            dispatch({type:'update_ship_data', payload: unfilteredShipData });
+            dispatch({type:'update_selected_manufacturer', payload: '' });
+        }
+    }
+}
+
 export const { Context, Provider } = createDataContext(
     AppReducer,
     { 
-        updateApiError, updateLoading, updateShipData, updateSelectedManufacturer, filterByManufacturer
+        updateApiError, updateLoading, updateShipData, updateSelectedManufacturer, filterByManufacturer, resetShipData
     },
-    { apiError:'', loading: false, shipData: [], peopleData: [], planetData: [], shipManufacturer: [], selectedManufacturer: '', unfiltedShipData: [] }
+    { apiError:'', loading: false, shipData: [], peopleData: [], planetData: [], shipManufacturer: [], selectedManufacturer: '', unfilteredShipData: [] }
 );

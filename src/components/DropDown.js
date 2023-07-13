@@ -63,7 +63,7 @@ const DropDown = () => {
                 onChange={item => {
                     // setValue(item.value);
                     updateSelectedManufacturer(item.value);
-                    filterByManufacturer(item.value, state.shipData);
+                    filterByManufacturer(item.value, state.unfilteredShipData);
                     setIsFocus(false);
                 }}
                 renderLeftIcon={() => (
