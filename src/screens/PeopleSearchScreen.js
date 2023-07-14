@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
+import QuoteComponent from "../components/QuoteComponent";
 
 const PeopleSearchScreen = ({ navigation }) => {
 
@@ -7,6 +8,7 @@ const PeopleSearchScreen = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <Text>People Search Screen</Text>
+            <QuoteComponent quoteBtn={true} spining={false}/>
         </View>
     );
 };

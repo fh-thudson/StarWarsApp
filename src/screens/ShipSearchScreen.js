@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect, useContext } from "react";
 import { StyleSheet, Text, View, FlatList, SafeAreaView, StatusBar, Dimensions, ActivityIndicator, TouchableOpacity } from "react-native";
 import DropDown from "../components/DropDown";
 import { Context as AppContext } from "../context/AppContext";
+import QuoteComponent from "../components/QuoteComponent";
 
 const ShipSearchScreen = ({ navigation }) => {
 
@@ -15,10 +16,8 @@ const ShipSearchScreen = ({ navigation }) => {
     }, []);
 
     if(state.loading){
-        return (
-            <View style={styles.container}>
-                <ActivityIndicator size="large" color="red" />
-            </View>
+        return(
+            <QuoteComponent quoteBtn={false} spining={true}/>
         );
     }
 
