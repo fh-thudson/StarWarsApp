@@ -85,6 +85,7 @@ const updateShipData = dispatch => {
             dispatch({type:'update_ship_data', payload: newShipData });
             // sort our array of manufacturers for the drop down selector
             // console.log(shipManufacturer.sort());
+            // TODO: remove duplicates
             dispatch({type:'update_ship_manufacturer', payload: shipManufacturer.sort() });
         } catch (err) {
             console.log(err);
